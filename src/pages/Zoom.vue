@@ -1,80 +1,34 @@
 <template>
-  <b-container class="meeting-container">
-    <b-breadcrumb :items="items" />
-    <b-row>
-      <b-col md="12">
-        <b-row>
-          <div class="zoom-container">
-            <iframe
-              v-if="zoomUrl"
-              :src="zoomUrl"
-            />
-          </div>
-        </b-row>
-        <b-row style="margin-top: 20px">
-          <h1>Group Topics (Click to Join call)</h1>
-        </b-row>
-        <b-row>
-          <b-col md="12">
-            <EventMeetings
-              :id="eventId || userId"
-              :type="eventId ? 'EVENT' : 'USER'"
-              :is-editable="isAdmin"
-              :admins="event ? event.adminUsers : []"
-            />
-          </b-col>
-        </b-row>
-
-        <b-row
-          v-if="!hideComments"
-          style="margin-top: 20px"
-        >
-          <h1>Comments</h1>
-        </b-row>
-        <b-row v-if="!hideComments && signedInUser">
-          <b-col md="12">
-            <add-comment
-              ref="addcomment"
-              :comment-id="commentId"
-              :on-save="saveComment"
-              :on-cancel="cancelComment"
-              :show-rating="showRating"
-              :parent-id="meetingId"
-              class="mt-1"
-            />
-          </b-col>
-        </b-row>
-        <b-row
-          v-if="!hideComments"
-          style="margin-bottom: 20px"
-        >
-          <b-col md="12">
-            <Comment
-              v-for="(comment, index) in comments"
-              :key="comment._id"
-              :index="index"
-              :comment-id="comment._id"
-              :comment="comment"
-              :show-rating="showRating"
-              :allow-reply="allowReply"
-              :on-delete="deleteComment"
-              :on-edit="editComment"
-              :on-save="saveComment"
-            />
-          </b-col>
-        </b-row>
-      </b-col>
-      <!-- <b-col md="3">
-        <OnlineUsers />
-      </b-col> -->
-    </b-row>
-  </b-container>
+	<b-container class="meeting-container">
+		<b-breadcrumb :items="items" />
+		<b-row>
+			<b-col md="12">
+				<b-row>
+					<div class="zoom-container">
+						<iframe v-if="zoomUrl" :src="zoomUrl" />
+					</div>
+				</b-row>
+				<b-row style="margin-top: 20px">
+					<h1>Group Topics (Click to Join call)</h1>
+				</b-row>
+				<b-row>
+					<b-col md="12">
+						<EventMeetings
+							:id="eventId || userId"
+							:type="eventId ? 'EVENT' : 'USER'"
+							:is-editable="isAdmin"
+							:admins="event ? event.adminUsers : []"
+						/>
+					</b-col>
+				</b-row>
+			</b-col>
+		</b-row>
+	</b-container>
 </template>
 
 <script>
 import eventService from '@/services/event.service';
 import EventMeetings from '@/components/Events/EventMeetings.vue';
-// import OnlineUsers from "@/components/OnlineUsers/OnlineUsers.vue";
 
 import commentService from '@/services/comment.service';
 import UserService from '@/services/user.service';
@@ -87,9 +41,6 @@ import { isEmpty } from 'lodash';
 export default {
 	components: {
 		EventMeetings,
-		// OnlineUsers,
-		Comment,
-		AddComment,
 	},
 	data() {
 		return {
